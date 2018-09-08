@@ -1,3 +1,4 @@
 src_backup_9_8_2018
-src/..*
+src/*pycache*
+src/*swp
 .DS_Store
