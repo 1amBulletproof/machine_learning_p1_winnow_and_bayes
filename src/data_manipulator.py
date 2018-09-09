@@ -76,7 +76,7 @@ class DataManipulator:
 	@staticmethod
 	def _convert_bin_val_into_binary_vector(val, num_bins):
 		bin_vals = [0 for val in range(num_bins)]
-		bin_vals[val] = 1
+		bin_vals[int(val)] = 1
 		return bin_vals
 
 	#=============================
