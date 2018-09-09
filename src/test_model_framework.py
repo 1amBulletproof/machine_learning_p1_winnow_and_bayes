@@ -55,7 +55,7 @@ def main():
 	number_of_classes = 2
 	naive_bayes = NaiveBayes(number_of_classes)
 	naive_bayes_learned_percents = naive_bayes.learn_naive_bayes_model(learning_data)
-	print('Naive Bayes learned percentages')
+	print('Naive Bayes learned percentages as input[ class[ (prob0, prob1) ] ]')
 	print(naive_bayes_learned_percents)
 	print()
 

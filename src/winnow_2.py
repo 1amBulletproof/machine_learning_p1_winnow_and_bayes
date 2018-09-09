@@ -300,7 +300,7 @@ success(' , winnow2_test_results[2], ')')
 
 	#compare results for each vector to determine classification
 	print()
-	print('TEST 3: test 2 models')
+	print('TEST 3: test 3+ classes')
 	learn_data1 = [[1,0,0,1], [0,1,0,0], [0,0,1,0]]
 	learn_data2 = [[1,0,0,0], [0,1,0,1], [0,0,1,0]]
 	learn_data3 = [[1,0,0,0], [0,1,0,0], [0,0,1,1]]
@@ -314,7 +314,6 @@ success(' , winnow2_test_results[2], ')')
 	winnow2_2 = Winnow2()
 	winnow2_3 = Winnow2()
 
-	#self.weights is being overwritten somehow, so must do a copy everytime
 	winnow2_1_learned_weights = winnow2_1.learn_winnow2_model(learn_data1)
 	winnow2_2_learned_weights = winnow2_2.learn_winnow2_model(learn_data2)
 	winnow2_3_learned_weights = winnow2_3.learn_winnow2_model(learn_data3)
@@ -329,7 +328,7 @@ success(' , winnow2_test_results[2], ')')
 	print('test_data:')
 	print(test_data)
 
-	print('TEST ALL 3 CLASSIFIERS')
+	print('Test results:')
 	winnow2_multi_model_test_results = Winnow2.test_multiple_winnow2_models(test_data, [winnow2_1, winnow2_2, winnow2_3]) #Should get this right since it's the training data!
 	print('#classification attempts(', winnow2_multi_model_test_results[0], '), \
 #fails(', winnow2_multi_model_test_results[1], '), \

@@ -199,6 +199,29 @@ def main():
 #fails(', naive_bayes_test_results[1], '), \
 #success(' , naive_bayes_test_results[2], ')')
 
+	#compare results for multiple classes 
+	print()
+	print('TEST 3: test 3+ classes')
+	learn_data1 = [[1,0,0,0], [0,1,0,1], [0,0,1,2]]
+	print('learn data1:')
+	print(learn_data1)
+	number_of_classes = 3
+	naive_bayes_multi_class = NaiveBayes(number_of_classes)
+
+	naive_bayes_learned_percents = naive_bayes_multi_class.learn_naive_bayes_model(learn_data1)
+	print('learned percentages as input[ class[ (prob 0, prob 1) ] ]')
+	print(naive_bayes_learned_percents)
+
+	test_data = learn_data1
+	print('test_data:')
+	print(test_data)
+
+	print('Test results:')
+	naive_bayes_test_results = naive_bayes_multi_class.test_naive_bayes_model(test_data)
+	print('#classification attempts(', naive_bayes_test_results[0], '), \
+#fails(', naive_bayes_test_results[1], '), \
+#success(' , naive_bayes_test_results[2], ')')
+
 
 if __name__ == '__main__':
 	main()
