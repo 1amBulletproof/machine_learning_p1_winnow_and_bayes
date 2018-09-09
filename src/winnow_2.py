@@ -161,29 +161,30 @@ class Winnow2:
 	#@return				ouput_vector
 	#=============================
 	@staticmethod
-	def test_multiple_winnow2_models(self, test_vector, winnow_models)
-		number_of_classifications = len(winnow_models) #one winnow model per 
+	def test_multiple_winnow2_models(self, test_vector, winnow_models):
+		return
+	#number_of_classifications = len(winnow_models) #one winnow model per 
 
 		#Trying to set threshold to relevant value
 
-		class_attempts = 0
-		class_fails = 0
-		class_success = 0
-		for idx in range(0, self._get_number_of_input_vectors(test_vectors), 1):
+		#class_attempts = 0
+		#class_fails = 0
+		#class_success = 0
+		#for idx in range(0, self._get_number_of_input_vectors(test_vectors), 1):
 	
-			model_result = self._winnow2_classification(test_vectors[idx], self.weights) #assumes we already have weights
-			expected_result = self._get_expected_result(test_vectors[idx])
+			#model_result = self._winnow2_classification(test_vectors[idx], self.weights) #assumes we already have weights
+			#expected_result = self._get_expected_result(test_vectors[idx])
 			#print('model_result(', model_result, '), expected_result(', expected_result, ')')
 
-			if model_result != expected_result:
-				class_fails += 1
-			else:
-				class_success += 1
-
-			class_attempts += 1
+			#if model_result != expected_result:
+				#class_fails += 1
+			#else:
+				#class_success += 1
+#
+			#class_attempts += 1
 				
-		return (class_attempts, class_fails, class_success)
-		return
+		#return (class_attempts, class_fails, class_success)
+		#return
 
 	#=============================
 	# _GET_PROMOTED_WEIGHT()
@@ -222,7 +223,7 @@ class Winnow2:
 	#	-The expected input format is [X1, X2, ... Xn, Fn]
 	#=============================
 	@staticmethod
-	def _get_number_of_inputs(self, data_vector):
+	def _get_number_of_inputs(data_vector):
 		return len(data_vector) - 1
 
 	#=============================
@@ -230,7 +231,7 @@ class Winnow2:
 	#	-The expected input format is [X1, X2, ... Xn, Fn]
 	#=============================
 	@staticmethod
-	def _get_number_of_input_vectors(self, data_vectors):
+	def _get_number_of_input_vectors(data_vectors):
 		return len(data_vectors)
 
 	#=============================
@@ -238,7 +239,7 @@ class Winnow2:
 	#	-The expected input format is [X1, X2, ... Xn, Fn]
 	#=============================
 	@staticmethod
-	def _get_data_inputs(self, data_vector):
+	def _get_data_inputs(data_vector):
 		inputs = data_vector[0:(len(data_vector) -1)]
 		return inputs
 
@@ -247,7 +248,7 @@ class Winnow2:
 	#	-The expected input format is [X1, X2, ... Xn, Fn]
 	#=============================
 	@staticmethod
-	def _get_expected_result(self, data_vector):
+	def _get_expected_result(data_vector):
 		expected_result = int(data_vector[-1]) #prevent possible string returned
 		return expected_result
 
@@ -279,18 +280,18 @@ fails(', winnow2_test_results[1], '), \
 success(' , winnow2_test_results[2], ')')
 
 	#compare results for each vector to determine classification
-	print()
-	print('TEST 3: test 2 models')
-	print('input data1:')
-	print(test_data)
-	test_data2 = [[1,1,0], [1,0,0], [0,1,1], [0,0,1]] #opposite data, may create equal data
-	for vector1, vector2 in test_data, test_data2:
-		summation1 = Winnow2_1_summation
+	#print()
+	#print('TEST 3: test 2 models')
+	#print('input data1:')
+	#print(test_data)
+	#test_data2 = [[1,1,0], [1,0,0], [0,1,1], [0,0,1]] #opposite data, may create equal data
+	#for vector1, vector2 in test_data, test_data2:
+		#summation1 = Winnow2_1_summation
 
-	winnow2_test_results = winnow2.test_winnow2_model(test_data) #Should get this right since it's the training data!
-	print('classification attempts(', winnow2_test_results[0], '), \
-fails(', winnow2_test_results[1], '), \
-success(' , winnow2_test_results[2], ')')
+	#winnow2_test_results = winnow2.test_winnow2_model(test_data) #Should get this right since it's the training data!
+	#print('classification attempts(', winnow2_test_results[0], '), \
+			#fails(', winnow2_test_results[1], '), \
+			#success(' , winnow2_test_results[2], ')')
 
 
 if __name__ == '__main__':
