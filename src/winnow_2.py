@@ -32,7 +32,7 @@ class Winnow2:
 	#	- Learn a winnow2 model (weights) from given learn_vectors and other parameters
 	#
 	#@param learn_vectors	2D matrix of format [X0,X1...Xn, Class]
-	#@param	weights			value to correct weights
+	#@return	weights
 	#=============================
 	def learn_winnow2_model(self, learn_vectors):
 		#print('LOG: learn_winnow2_model START')
@@ -62,9 +62,6 @@ class Winnow2:
 						print('ERROR: Model result(' , model_result , ') or expected result(' , expected_result , ')')
 					input_idx += 1
 
-		#TODO: print final model weights
-		#TODO: print overall performance (i.e. how often it was wrong / needed to be corrected)
-		#TODO: what else must be captured or output here?
 		return self.weights
 
 	#=============================
@@ -130,7 +127,6 @@ class Winnow2:
 	#@return				ouput_vector
 	#=============================
 	def test_winnow2_model(self, test_vectors, weights=[]):
-		#@TODO: implement
 		#@TODO: need to support multiple classifications where function value's must be compared for multiple weight vectors/resuts && the largest one chosen!
 		if (len(weights) > 0):
 			print("LOG: input weights for the testing")
