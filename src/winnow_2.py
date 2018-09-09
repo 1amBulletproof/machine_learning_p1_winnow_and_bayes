@@ -6,6 +6,8 @@
 
 import numpy as np
 import argparse
+import operator
+import copy
 
 #@TODO: redo this class (and others) with numpy or pandas?
 
@@ -16,13 +18,11 @@ import argparse
 #=============================
 class Winnow2:
 
-	def __init__(self, alpha=2, threshold=0.5, default_weight=1, weights=[]):
+	def __init__(self, alpha=2, threshold=0.5, default_weight=1):
 		self.alpha = alpha
-		self.threshold = threshold #overwritten by learn_winow2_model()
+		self.threshold = threshold #overwritten by learn_winnow2_model()
 		self.default_weight = default_weight
-		self.weights = weights
-		#@TODO: vary alpha, try 1.5, 2, 3
-		#@TODO: vary threshold, try n/2 instead of just 0.5 - note it's overwritten by the learn method!
+		self.weights = []
 
 	#=============================
 	# LEARN_WINNOW2_MODEL()
@@ -47,6 +47,7 @@ class Winnow2:
 
 			model_result = self._winnow2_classification(learn_vectors[idx], self.weights)
 			expected_result = Winnow2._get_expected_result(learn_vectors[idx]) 
+			#print('model_result:', model_result, ' expected_result:', expected_result)
 
 			if model_result != expected_result:
 				input_idx = 0
@@ -73,8 +74,8 @@ class Winnow2:
 	def _winnow2_classification(self, data_vector, weights):
 		model_result = 0
 
-		inputs = self._get_data_inputs(data_vector)
-		expected_result = self._get_expected_result(data_vector)
+		inputs = Winnow2._get_data_inputs(data_vector)
+		expected_result = Winnow2._get_expected_result(data_vector)
 
 		#print()
 		#print('CLASS START')
@@ -129,15 +130,15 @@ class Winnow2:
 			print("LOG: input weights for the testing")
 
 		#Trying to set threshold to relevant value
-		self.threshold = self._get_number_of_inputs(test_vectors[0]) / 2
+		self.threshold = Winnow2._get_number_of_inputs(test_vectors[0]) / 2
 
 		class_attempts = 0
 		class_fails = 0
 		class_success = 0
-		for idx in range(0, self._get_number_of_input_vectors(test_vectors), 1):
+		for idx in range(0, Winnow2._get_number_of_input_vectors(test_vectors), 1):
 	
 			model_result = self._winnow2_classification(test_vectors[idx], self.weights) #assumes we already have weights
-			expected_result = self._get_expected_result(test_vectors[idx])
+			expected_result = Winnow2._get_expected_result(test_vectors[idx])
 			#print('model_result(', model_result, '), expected_result(', expected_result, ')')
 
 			if model_result != expected_result:
@@ -161,30 +162,48 @@ class Winnow2:
 	#@return				ouput_vector
 	#=============================
 	@staticmethod
-	def test_multiple_winnow2_models(self, test_vector, winnow_models):
-		return
-	#number_of_classifications = len(winnow_models) #one winnow model per 
+	def test_multiple_winnow2_models(test_vectors, winnow_models):
+		number_of_classifications = len(winnow_models) #one winnow model per 
 
-		#Trying to set threshold to relevant value
+		threshold = Winnow2._get_number_of_inputs(test_vectors[0]) / 2.0
 
-		#class_attempts = 0
-		#class_fails = 0
-		#class_success = 0
-		#for idx in range(0, self._get_number_of_input_vectors(test_vectors), 1):
-	
-			#model_result = self._winnow2_classification(test_vectors[idx], self.weights) #assumes we already have weights
-			#expected_result = self._get_expected_result(test_vectors[idx])
-			#print('model_result(', model_result, '), expected_result(', expected_result, ')')
+		class_attempts = 0
+		class_fails = 0
+		class_success = 0
 
-			#if model_result != expected_result:
-				#class_fails += 1
-			#else:
-				#class_success += 1
-#
-			#class_attempts += 1
-				
-		#return (class_attempts, class_fails, class_success)
-		#return
+		for row in range(0, Winnow2._get_number_of_input_vectors(test_vectors), 1):
+			model_results = {}
+			classification = 0
+			for winnow_model in winnow_models:
+				variables = test_vectors[row][:-1]
+
+				fcn_result = winnow_model._summation_fcn(variables, winnow_model.weights)
+				model_results[classification] = fcn_result
+				classification += 1
+
+			winning_classification = max(model_results.items(), key=operator.itemgetter(1))
+
+			model_result = 0
+			if winning_classification[1] >= threshold:
+				model_result = winning_classification[0]
+			else:
+				model_result = 0
+
+			expected_result = Winnow2._get_expected_result(test_vectors[row])
+
+			#print('winning_classification')
+			#print(winning_classification)
+			#print('thresh: ', threshold)
+			#print('model_result', model_result, 'expected', expected_result)
+
+			if model_result != expected_result:
+				class_fails += 1
+			else:
+				class_success += 1
+
+			class_attempts += 1
+			
+		return (class_attempts, class_fails, class_success)
 
 	#=============================
 	# _GET_PROMOTED_WEIGHT()
@@ -261,7 +280,7 @@ def main():
 
 	print()
 	print('TEST 1: learn the model')
-	print('input data:')
+	print('input data1:')
 	test_data = [[0, 0, 0], [0, 1, 0], [ 1, 0, 1], [1, 1, 1]] #Should be 100% correlated to X1
 	print(test_data)
 
@@ -272,7 +291,7 @@ def main():
 
 	print()
 	print('TEST 2: test the model')
-	print('input data:')
+	print('input data1:')
 	print(test_data)
 	winnow2_test_results = winnow2.test_winnow2_model(test_data) #Should get this right since it's the training data!
 	print('classification attempts(', winnow2_test_results[0], '), \
@@ -280,18 +299,41 @@ fails(', winnow2_test_results[1], '), \
 success(' , winnow2_test_results[2], ')')
 
 	#compare results for each vector to determine classification
-	#print()
-	#print('TEST 3: test 2 models')
-	#print('input data1:')
-	#print(test_data)
-	#test_data2 = [[1,1,0], [1,0,0], [0,1,1], [0,0,1]] #opposite data, may create equal data
-	#for vector1, vector2 in test_data, test_data2:
-		#summation1 = Winnow2_1_summation
+	print()
+	print('TEST 3: test 2 models')
+	learn_data1 = [[1,0,0,1], [0,1,0,0], [0,0,1,0]]
+	learn_data2 = [[1,0,0,0], [0,1,0,1], [0,0,1,0]]
+	learn_data3 = [[1,0,0,0], [0,1,0,0], [0,0,1,1]]
+	print('learn data1:')
+	print(learn_data1)
+	print('learn data2:')
+	print(learn_data2)
+	print('learn data3:')
+	print(learn_data3)
+	winnow2_1 = Winnow2()
+	winnow2_2 = Winnow2()
+	winnow2_3 = Winnow2()
 
-	#winnow2_test_results = winnow2.test_winnow2_model(test_data) #Should get this right since it's the training data!
-	#print('classification attempts(', winnow2_test_results[0], '), \
-			#fails(', winnow2_test_results[1], '), \
-			#success(' , winnow2_test_results[2], ')')
+	#self.weights is being overwritten somehow, so must do a copy everytime
+	winnow2_1_learned_weights = winnow2_1.learn_winnow2_model(learn_data1)
+	winnow2_2_learned_weights = winnow2_2.learn_winnow2_model(learn_data2)
+	winnow2_3_learned_weights = winnow2_3.learn_winnow2_model(learn_data3)
+	print('learned weights1')
+	print(winnow2_1_learned_weights)
+	print('learned weights2')
+	print(winnow2_2_learned_weights)
+	print('learned weights3')
+	print(winnow2_3_learned_weights)
+
+	test_data = [[1,0,0,0], [0,1,0,1], [0,0,1,2]]
+	print('test_data:')
+	print(test_data)
+
+	print('TEST ALL 3 CLASSIFIERS')
+	winnow2_multi_model_test_results = Winnow2.test_multiple_winnow2_models(test_data, [winnow2_1, winnow2_2, winnow2_3]) #Should get this right since it's the training data!
+	print('#classification attempts(', winnow2_multi_model_test_results[0], '), \
+#fails(', winnow2_multi_model_test_results[1], '), \
+#success(' , winnow2_multi_model_test_results[2], ')')
 
 
 if __name__ == '__main__':
