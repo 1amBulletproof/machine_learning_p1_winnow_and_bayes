@@ -7,7 +7,6 @@
 import numpy as np
 import argparse
 
-#@TODO: change prints to logs?
 #@TODO: redo this class (and others) with numpy or pandas?
 
 #=============================
@@ -19,12 +18,11 @@ class Winnow2:
 
 	def __init__(self, alpha=2, threshold=0.5, default_weight=1, weights=[]):
 		self.alpha = alpha
-		self.threshold = threshold
+		self.threshold = threshold #overwritten by learn_winow2_model()
 		self.default_weight = default_weight
 		self.weights = weights
-		#@TODO: handle number of weights > number_of_inputs
 		#@TODO: vary alpha, try 1.5, 2, 3
-		#@TODO: vary threshold, try n/2 instead of just 0.5
+		#@TODO: vary threshold, try n/2 instead of just 0.5 - note it's overwritten by the learn method!
 
 	#=============================
 	# LEARN_WINNOW2_MODEL()

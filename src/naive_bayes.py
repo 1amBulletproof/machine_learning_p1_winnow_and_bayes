@@ -7,7 +7,6 @@
 import numpy as np
 import argparse
 
-#@TODO: change prints to logs?
 #@TODO: redo this class (and others) with numpy or pandas?
 
 #=============================
@@ -35,7 +34,6 @@ class NaiveBayes:
 	#@return				percentage table
 	#=============================
 	def learn_naive_bayes_model(self, learn_vectors):
-		#@TODO: implement
 		sample_size = self._get_number_of_input_vectors(learn_vectors)
 		class_totals = list()
 		all_feature_totals = list()
@@ -56,7 +54,8 @@ class NaiveBayes:
 			class_totals[classification] += 1
 
 			for input_itr in range(0, number_of_features, 1):
-				all_feature_totals[input_itr][classification][learn_vector[input_itr]] += 1
+				input_feature_val = int(learn_vector[input_itr])
+				all_feature_totals[input_itr][int(classification)][input_feature_val] += 1
 
 		#print('all_feature_totals')
 		#print(all_feature_totals)
@@ -112,7 +111,6 @@ class NaiveBayes:
 	#@return				ouput_vector
 	#=============================
 	def test_naive_bayes_model(self, test_vectors):
-		#@TODO: implement
 		class_attempts = 0
 		class_fails = 0
 		class_success = 0
@@ -125,7 +123,7 @@ class NaiveBayes:
 			for classification in range(0, self.number_of_classes, 1):
 				current_classification_probability = self.class_percents[classification]
 				for input_itr in range(0, number_of_inputs, 1):
-					input_val = test_vector[input_itr]
+					input_val = int(test_vector[input_itr])
 					
 					current_classification_probability *= \
 						self.feature_percents[input_itr][classification][input_val]
@@ -198,8 +196,8 @@ def main():
 	print(test_data)
 	naive_bayes_test_results = naive_bayes.test_naive_bayes_model(test_data) #Should get this right since it's the training data!
 	print('classification attempts(', naive_bayes_test_results[0], '), \
-			#fails(', naive_bayes_test_results[1], '), \
-			#success(' , naive_bayes_test_results[2], ')')
+#fails(', naive_bayes_test_results[1], '), \
+#success(' , naive_bayes_test_results[2], ')')
 
 
 if __name__ == '__main__':

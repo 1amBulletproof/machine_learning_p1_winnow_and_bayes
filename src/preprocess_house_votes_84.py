@@ -8,8 +8,6 @@ import argparse
 from file_manager import FileManager
 from data_manipulator import DataManipulator
 
-#@TODO: replace all "prints" with LOGS
-
 #=============================
 # PROCESS_HOUSE_VOTES_DATA()
 #

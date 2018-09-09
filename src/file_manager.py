@@ -9,8 +9,6 @@ import numpy as np
 import pandas as pd
 import argparse
 
-#@TODO: replace all "prints" with LOGS
-
 #=============================
 # FILE_MANAGER
 #

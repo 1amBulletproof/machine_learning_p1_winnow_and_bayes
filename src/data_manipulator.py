@@ -8,8 +8,6 @@ import argparse
 import copy
 import random
 
-#@TODO: replace all "prints" with LOGS
-
 
 #=============================
 # DATAMANIPULATOR
@@ -132,11 +130,13 @@ class DataManipulator:
 	@staticmethod
 	def split_data_in_2_randomly(data, fraction):
 
-		#@TODO: Make this more RANDOM - try scrambling the vectors first
 		#print('data before shuffle:')
 		#print(data)
+
+		#Randomize the data
 		data_copy = copy.deepcopy(data)
 		random.shuffle(data_copy)
+
 		#print('data after shuffle:')
 		#print(data)
 		
