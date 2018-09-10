@@ -19,6 +19,7 @@ def main():
 	parser = argparse.ArgumentParser(description='Learn & Verify machine learning algorithms')
 	parser.add_argument('file_path', type=str, help='full path to input file')
 	parser.add_argument('fraction', type=float, default=0.66, nargs='?', help='fraction of data to learn')
+	parser.add_argument('num_classes', type=int, default=2, nargs='?', help='number of total classes')
 	args = parser.parse_args()
 
 	#INPUTS
@@ -28,6 +29,8 @@ def main():
 	print('filepath: ' + file_path)
 	fraction_of_data_for_learning = args.fraction
 	print('fraction of data to train: ',  fraction_of_data_for_learning)
+	number_of_classes = args.num_classes
+	print('number of classes: ', number_of_classes)
 
 	#READ INPUT DATA
 	input_data = FileManager.get_csv_file_data_array(file_path)
@@ -52,7 +55,6 @@ def main():
 	print()
 
 	#Naive Bayes
-	number_of_classes = 2
 	naive_bayes = NaiveBayes(number_of_classes)
 	naive_bayes_learned_percents = naive_bayes.learn_naive_bayes_model(learning_data)
 	print('Naive Bayes learned percentages as input[ class[ (prob0, prob1) ] ]')
@@ -63,7 +65,7 @@ def main():
 
 	#Winnow2
 	print('Testing Winnow2 model')
-	winnow2_test_results = winnow2.test_winnow2_model(test_data) #Should get this right since it's the training data!
+	winnow2_test_results = winnow2.test_winnow2_model(test_data)
 	print('classification attempts(', winnow2_test_results[0], '), \
 #fails(', winnow2_test_results[1], '), \
 #success(' , winnow2_test_results[2], ')')
@@ -71,7 +73,7 @@ def main():
 
 	#Naive Bayes
 	print('Testing Naive Bayes model')
-	naive_bayes_test_results = naive_bayes.test_naive_bayes_model(test_data) #Should get this right since it's the training data!
+	naive_bayes_test_results = naive_bayes.test_naive_bayes_model(test_data) 
 	print('#classification attempts(', naive_bayes_test_results[0], '), \
 #fails(', naive_bayes_test_results[1], '), \
 #success(' , naive_bayes_test_results[2], ')')
